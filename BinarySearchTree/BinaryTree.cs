@@ -6,60 +6,64 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-
 namespace BinarySearchTree
 {
     public class BinaryTree<T> where T : IComparable
     {
         public Node<T> root { get; set; } = null;
         public int count = 0;
-        public  void insert(T data)
+
+        public void insert(T data)
         {
             if (root == null)
             {
                 root = new Node<T>(data);
                 count++;
-                
             }
-            Node<T> current = root;
-            while (current != null)
+            else
             {
-                if (data.CompareTo(current.nodedata) > 0)
+                Node<T> current = root;
+                while (true)
                 {
-                    if (current.right != null)
+                    if (data.CompareTo(current.nodedata) > 0)
                     {
-                        current = current.right;
-                       
+                        if (current.right != null)
+                        {
+                            current = current.right;
+                        }
+                        else
+                        {
+                            current.right = new Node<T>(data);
+                            count++;
+                            break;
+                        }
                     }
-                    current.right = new Node<T>(data);
-                    count++;
-                    break;
-                }
-
-                else if (data.CompareTo(current.nodedata) < 0)
-                {
-                    if (current.left != null)
+                    else if (data.CompareTo(current.nodedata) < 0)
                     {
-                        current = current.left;
-                        
+                        if (current.left != null)
+                        {
+                            current = current.left;
+                        }
+                        else
+                        {
+                            current.left = new Node<T>(data);
+                            count++;
+                            break;
+                        }
                     }
-                    current.left = new Node<T>(data);
-                    count++;
-                    break;
+                    else
+                    {
+                        return;
+                    }
                 }
-
-                else
-                {
-                    return;
-                }
-
             }
-           
         }
+
         public int Size()
         {
             return count;
         }
+
         public Node<T> Search(T value, Node<T> root)
         {
             if (root == null)
@@ -79,17 +83,20 @@ namespace BinarySearchTree
                 return root;
             }
         }
-        public void isExists(T data, Node<T> root)
+
+        public void IsExists(T data, Node<T> root)
         {
             Node<T> node = Search(data, root);
             if (node != null)
             {
-
-                Console.WriteLine("Element Found :" + node.nodedata);
+                Console.WriteLine("Element Found: " + node.nodedata);
             }
             else
-                Console.WriteLine("Element {0} is not Found ", data);
+            {
+                Console.WriteLine("Element {0} is not found", data);
+            }
         }
+
         public void Display(Node<T> root)
         {
             if (root == null)
@@ -97,20 +104,23 @@ namespace BinarySearchTree
                 return;
             }
             Display(root.left);
-            System.Console.Write(root.nodedata + " ");
+            Console.Write(root.nodedata + " ");
             Display(root.right);
         }
-        public int size(Node<T> root)
+
+        public int Size(Node<T> root)
         {
             if (root == null)
             {
                 return 0;
             }
-            int leftSize = size(root.left);
-            int rightSize = size(root.right);
+            int leftSize = Size(root.left);
+            int rightSize = Size(root.right);
             return leftSize + rightSize + 1;
         }
     }
 }
 
-       
+
+    
+
